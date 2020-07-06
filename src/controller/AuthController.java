@@ -18,11 +18,9 @@ public class AuthController extends WebController {
         display(req, resp, "index.jsp");
     }
 
-    public void secondNewMethodForVcExample() {
-        // Test
+    public void newMethodForVcExample() {
+
     }
-
-
 
     public void signin(HttpServletRequest req, HttpServletResponse resp)
     throws ServletException, IOException {
