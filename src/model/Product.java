@@ -37,11 +37,13 @@ public class Product {
         this.price          = price;
     }
 
-    public static ArrayList<Product> listAllProduct() {
+    public static ArrayList<Product> listAllProduct(int pageIndex, int pageLimit) {
 
         try {
+
+            int pageOffset  = (pageIndex - 1) * pageLimit;
             ArrayList<Product> resultCollection = new ArrayList<>();
-            ResultSet collection = Database.getInstance().select("products").fetch();
+            ResultSet collection = Database.getInstance().select("products").limit(pageLimit, pageOffset).fetch();
             while(collection.next()) {
                 resultCollection.add(new Product(   collection.getInt("id"              ),
                                                     collection.getString("title"        ),
