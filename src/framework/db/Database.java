@@ -232,6 +232,18 @@ public class Database {
         return this;
     }
 
+    public Database limit(int limit) {
+
+        this.queryBuilder += " LIMIT " + limit;
+        return this;
+    }
+
+    public Database limit(int limit, int offset) {
+
+        this.queryBuilder += " LIMIT " + offset + ", " + limit;
+        return this;
+    }
+
     public boolean execute() throws SQLException {
         return this.dbStatment.execute(this.queryBuilder, Statement.RETURN_GENERATED_KEYS);
     }
