@@ -1,23 +1,37 @@
 package controller;
 
+import config.RouteMap;
 import framework.controller.WebController;
 import model.Product;
+import service.Auth;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ProductController extends WebController {
 
-    public void index(HttpServletRequest req, HttpServletResponse resp) {
+    public void index(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+        if(!Auth.isAuthenticated()) {
+
+            redirect(resp, RouteMap.HOME);
+            return;
+        }
+
         System.out.println("Product : INDEX");
     }
 
     public void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        if(!Auth.isAuthenticated()) {
+
+            redirect(resp, RouteMap.HOME);
+            return;
+        }
 
         String pageIndexQuery   = getQueryValue(req, "page_index");
         int pageIndex           = (pageIndexQuery != null) ? Integer.parseInt(pageIndexQuery) : 1;
@@ -49,6 +63,34 @@ public class ProductController extends WebController {
     public void remove(HttpServletRequest req, HttpServletResponse resp) {
 
     }
+
+    public void details(HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException, ServletException {
+
+        String productId = getQueryValue(req, "productid");
+
+        if(productId == null) {
+            redirect(resp, RouteMap.PRODUCT_NOT_FOUND);
+            return;
+        }
+
+        int id          = Integer.parseInt(productId);
+        Product product = Product.fetchProductById(id);
+
+
+        if(product == null) {
+
+            redirect(resp, RouteMap.PRODUCT_NOT_FOUND);
+            return;
+        }
+
+        session(req, "product_details_product", product);
+        display(req, resp, "product_details.jsp");
+    }
+
+    public void notfound(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        display(req, resp, "product_not_found.jsp");
+    }
+
 }
 
 //  base/product/list
