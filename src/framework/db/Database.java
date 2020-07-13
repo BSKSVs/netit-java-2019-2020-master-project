@@ -267,6 +267,12 @@ public class Database {
         WhereOperationEnum operation;
         WhereNextOperationRelation nextOperationRelation;
 
+        public WhereOperation(String value, WhereOperationEnum operation) {
+
+            this.value                  = value;
+            this.operation              = operation;
+        }
+
         public WhereOperation(String value, WhereOperationEnum operation, WhereNextOperationRelation nextOperationRelation) {
 
             this.value                  = value;
@@ -279,21 +285,22 @@ public class Database {
             if(this.operation == WhereOperationEnum.GT      ) return ">";
             if(this.operation == WhereOperationEnum.LT      ) return "<";
             if(this.operation == WhereOperationEnum.EQUAL   ) return "=";
+            if(this.operation == WhereOperationEnum.LIKE    ) return " LIKE ";
 
             return null;
         }
 
         public String getNextOperationRelation() {
 
-            if(this.nextOperationRelation == WhereNextOperationRelation.AND ) return "AND";
-            if(this.nextOperationRelation == WhereNextOperationRelation.OR  ) return "OR";
+            if(this.nextOperationRelation == WhereNextOperationRelation.AND ) return " AND ";
+            if(this.nextOperationRelation == WhereNextOperationRelation.OR  ) return " OR ";
 
             return " ";
         }
     }
 
     public enum WhereOperationEnum {
-        GT, LT, EQUAL
+        GT, LT, EQUAL, LIKE
     }
 
     public enum WhereNextOperationRelation {
