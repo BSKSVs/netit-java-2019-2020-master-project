@@ -1,5 +1,6 @@
 package controller;
 
+import config.RouteMap;
 import framework.controller.WebController;
 import model.User;
 import service.Auth;
@@ -78,6 +79,14 @@ public class AuthController extends WebController {
         // DatabaseOrm.insert(prazExampleOrmUser);
 
         this.signup(req, resp);
+    }
+
+
+    public void signout(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+        Auth.signout();
+        req.getSession().invalidate();
+        redirect(resp, RouteMap.HOME);
     }
 
 
