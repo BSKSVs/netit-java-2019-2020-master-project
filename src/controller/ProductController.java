@@ -91,6 +91,16 @@ public class ProductController extends WebController {
         display(req, resp, "product_not_found.jsp");
     }
 
+    public void search(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        display(req, resp, "product_search.jsp");
+    }
+
+    public void q(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        String productName = req.getParameter("product_name");
+        ArrayList<Product> productCollection = Product.listAllProductByName(productName);
+
+    }
 }
 
 //  base/product/list

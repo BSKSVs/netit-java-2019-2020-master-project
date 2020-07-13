@@ -2,6 +2,7 @@
 <%@ page import="model.Product" %>
 <%@ page import="service.Auth" %>
 <%@ page import="service.Util" %>
+<%@ page import="service.Form" %>
 <jsp:include page="components/header.jsp"></jsp:include>
 
 <h1> Product list</h1>
@@ -14,6 +15,8 @@
         out.print("<h3>" + element.getTitle() + "</h3>");
         out.print("<div>" + element.getDescription() + "</div>");
         out.print("<div>" + element.getPrice() + "</div>");
+        out.print("<div>" + element.getPrice() + "</div>");
+        Form.href(out, ("product/details?productid=" + element.getId()), "Product Details");
 
         if (Auth.isAuthenticated()) {
 
@@ -25,27 +28,21 @@
         out.print("<hr>");
     }
 
-    // if(productCollection.size() > 0) {
     boolean hasNextPage = (boolean) request.getSession().getAttribute("product_list_has_next_page");
     boolean hasPrevPage = (boolean) request.getSession().getAttribute("product_list_has_prev_page");
+    String pageLimit        = (String) request.getSession().getAttribute("product_list_page_limit");
 
     if(hasNextPage) {
+
         String nextPageIndex    = (String) request.getSession().getAttribute("product_list_next_page");
-        String pageLimit        = (String) request.getSession().getAttribute("product_list_page_limit");
-        String nextPage = Util.getFullPath("product/list?page_index=" + nextPageIndex + "&page_limit=" + pageLimit);
-        String nextPageLink = "<a href='" + nextPage + "'>Next Page</a>";
-        out.print(nextPageLink);
+        Form.href(out, ("product/list?page_index=" + nextPageIndex + "&page_limit=" + pageLimit), "Next Page");
     }
 
     if(hasPrevPage) {
-        String prevPageIndex    = (String) request.getSession().getAttribute("product_list_prev_page");
-        String pageLimit        = (String) request.getSession().getAttribute("product_list_page_limit");
-        String prevPage         = Util.getFullPath("product/list?page_index=" + prevPageIndex + "&page_limit=" + pageLimit);
-        String prevPageLink     = "<a href='" + prevPage + "'>Prev Page</a>";
-        out.print(prevPageLink);
-    }
 
-    // }
+        String prevPageIndex    = (String) request.getSession().getAttribute("product_list_prev_page");
+        Form.href(out, ("product/list?page_index=" + prevPageIndex + "&page_limit=" + pageLimit), "Prev Page");
+    }
 %>
 
 
