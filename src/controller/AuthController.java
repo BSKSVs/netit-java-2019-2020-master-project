@@ -25,6 +25,13 @@ public class AuthController extends WebController {
 
     public void signin(HttpServletRequest req, HttpServletResponse resp)
     throws ServletException, IOException {
+
+        if(Auth.isAuthenticated()) {
+
+            redirect(resp, RouteMap.PRODUCT_LIST);
+            return;
+        }
+
         display(req, resp, "signin.jsp");
     }
 
@@ -50,6 +57,12 @@ public class AuthController extends WebController {
     // @MVCRoute( path = "signup", method="GET")
     public void signup(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException {
+
+        if(Auth.isAuthenticated()) {
+
+            redirect(resp, RouteMap.PRODUCT_LIST);
+            return;
+        }
 
         req.getRequestDispatcher("/signup.jsp").forward(req, resp);
     }
