@@ -5,13 +5,7 @@
   Time: 8:12 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
-
+<jsp:include page="../../components/header.jsp"></jsp:include>
     <h2>Product Details REQUEST SESSION</h2>
     <%
         Product detailsProduct =  (Product)request.getSession().getAttribute("product_details_product");
@@ -24,6 +18,4 @@
         out.print(sessionProduct.getDescription());
 
     %>
-
-</body>
-</html>
+<jsp:include page="../../components/footer.jsp"></jsp:include>

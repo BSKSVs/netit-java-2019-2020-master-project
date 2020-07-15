@@ -1,4 +1,4 @@
-<jsp:include page="components/header.jsp"></jsp:include>
+<jsp:include page="../../components/header.jsp"></jsp:include>
 <%
 
 //    if((boolean)request.getAttribute("is_loged_in")) {
@@ -25,4 +25,4 @@ ${pageContext.request.contextPath}
 </div>
 
 
-<jsp:include page="components/footer.jsp"></jsp:include>
+<jsp:include page="../../components/footer.jsp"></jsp:include>

@@ -3,10 +3,16 @@
 <%@ page import="service.Auth" %>
 <%@ page import="service.Util" %>
 <%@ page import="service.Form" %>
-<jsp:include page="components/header.jsp"></jsp:include>
+<jsp:include page="../../components/header.jsp"></jsp:include>
+
+<h2>Search for product</h2>
+<form method="get" action="http://localhost:8182/JavaWebShop2_war_exploded/base/product/q">
+    <input type="text" name="product_name">
+    <input type="submit">
+</form>
+<hr>
 
 <h1> Product list</h1>
-
 <%
     ArrayList<Product> productCollection = (ArrayList<Product>) request.getSession().getAttribute("product_list");
 
@@ -30,7 +36,7 @@
 
     boolean hasNextPage = (boolean) request.getSession().getAttribute("product_list_has_next_page");
     boolean hasPrevPage = (boolean) request.getSession().getAttribute("product_list_has_prev_page");
-    String pageLimit        = (String) request.getSession().getAttribute("product_list_page_limit");
+    String pageLimit     = (String) request.getSession().getAttribute("product_list_page_limit");
 
     if(hasNextPage) {
 
@@ -45,7 +51,4 @@
     }
 %>
 
-
-
-
-<jsp:include page="components/footer.jsp"></jsp:include>
+<jsp:include page="../../components/footer.jsp"></jsp:include>

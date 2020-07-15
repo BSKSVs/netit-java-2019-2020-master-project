@@ -1,4 +1,4 @@
-<jsp:include page="components/header.jsp"></jsp:include>
+<jsp:include page="../../components/header.jsp"></jsp:include>
 <hr>
 <%= request.getSession().getAttribute("message") %>
 <hr>
@@ -20,4 +20,4 @@ ${message}
 </div>
 
 
-<jsp:include page="components/footer.jsp"></jsp:include>
+<jsp:include page="../../components/footer.jsp"></jsp:include>
