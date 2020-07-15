@@ -1,5 +1,6 @@
 package controller;
 
+import config.PageMap;
 import config.RouteMap;
 import framework.controller.WebController;
 import model.Product;
@@ -17,21 +18,14 @@ public class ProductController extends WebController {
     public void index(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         if(!Auth.isAuthenticated()) {
-
             redirect(resp, RouteMap.HOME);
             return;
         }
 
-        System.out.println("Product : INDEX");
+        redirect(resp, RouteMap.PRODUCT_LIST);
     }
 
-    public void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        if(!Auth.isAuthenticated()) {
-
-            redirect(resp, RouteMap.HOME);
-            return;
-        }
+    private void displayStandartProductList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String pageIndexQuery   = getQueryValue(req, "page_index");
         int pageIndex           = (pageIndexQuery != null) ? Integer.parseInt(pageIndexQuery) : 1;
@@ -49,11 +43,26 @@ public class ProductController extends WebController {
 
         session(req, "product_list_has_next_page", listProductCollection.size() == pageLimit);
         session(req, "product_list_has_prev_page", pageIndex > 1);
+    }
 
+
+
+    public void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        if(!Auth.isAuthenticated()) {
+
+            redirect(resp, RouteMap.HOME);
+            return;
+        }
+        String stateParameter = getQueryValue(req, "state");
+
+        if(stateParameter == null) {
+            displayStandartProductList(req, resp);
+        }
 
         // return only a subset of product LIMIT
         // display on screen
-        display(req, resp, "product.jsp");
+        display(req, resp, PageMap.PRODUCT_INDEX);
     }
 
     public void create(HttpServletRequest req, HttpServletResponse resp) {
@@ -84,22 +93,24 @@ public class ProductController extends WebController {
         }
 
         session(req, "product_details_product", product);
-        display(req, resp, "product_details.jsp");
+        display(req, resp, PageMap.PRODUCT_DETAILS);
     }
 
     public void notfound(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        display(req, resp, "product_not_found.jsp");
+        display(req, resp, PageMap.PRODUCT_NOT_FOUND);
     }
 
     public void search(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        display(req, resp, "product_search.jsp");
+        display(req, resp, PageMap.PRODUCT_SEARCH);
     }
 
     public void q(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String productName = req.getParameter("product_name");
         ArrayList<Product> productCollection = Product.listAllProductByName(productName);
-
+        // session(req, "product_q_result", productCollection);
+        session(req, "product_list", productCollection);
+        redirect(resp, RouteMap.PRODUCT_LIST, "state=search_result");
     }
 }
 
