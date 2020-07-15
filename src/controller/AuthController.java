@@ -1,5 +1,6 @@
 package controller;
 
+import config.PageMap;
 import config.RouteMap;
 import framework.controller.WebController;
 import model.User;
@@ -14,15 +15,6 @@ import java.sql.SQLException;
 
 public class AuthController extends WebController {
 
-    public void index(HttpServletRequest req, HttpServletResponse resp)
-    throws ServletException, IOException {
-        display(req, resp, "index.jsp");
-    }
-
-    public void newMethodForVcExample() {
-
-    }
-
     public void signin(HttpServletRequest req, HttpServletResponse resp)
     throws ServletException, IOException {
 
@@ -32,7 +24,7 @@ public class AuthController extends WebController {
             return;
         }
 
-        display(req, resp, "signin.jsp");
+        display(req, resp, PageMap.AUTH_SIGNIN);
     }
 
     public void post_signin(HttpServletRequest req, HttpServletResponse resp)
@@ -51,7 +43,7 @@ public class AuthController extends WebController {
         }
 
         req.getSession().setAttribute("user_name", Auth.getUser().getFullName());
-        redirect(resp, "/base/product/list");
+        redirect(resp, RouteMap.PRODUCT_LIST);
     }
 
     // @MVCRoute( path = "signup", method="GET")
@@ -64,7 +56,7 @@ public class AuthController extends WebController {
             return;
         }
 
-        req.getRequestDispatcher("/signup.jsp").forward(req, resp);
+        req.getRequestDispatcher(PageMap.AUTH_SIGNUP).forward(req, resp);
     }
 
     // @MVCRoute( path = "signup", method="post")
@@ -94,20 +86,10 @@ public class AuthController extends WebController {
         this.signup(req, resp);
     }
 
-
     public void signout(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         Auth.signout();
         req.getSession().invalidate();
         redirect(resp, RouteMap.HOME);
-    }
-
-
-    private void processUserSignIn() {
-
-    }
-
-    private void processUserSignUp() {
-
     }
 }
