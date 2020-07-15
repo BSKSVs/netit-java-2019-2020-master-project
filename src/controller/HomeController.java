@@ -1,4 +1,5 @@
 package controller;
+import config.PageMap;
 import framework.controller.WebController;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
@@ -12,8 +13,7 @@ public class HomeController extends WebController {
 
     public void index(HttpServletRequest req, HttpServletResponse resp)
     throws ServletException, IOException {
-
-        req.getRequestDispatcher("/demo.jsp").forward(req, resp);
+        req.getRequestDispatcher(PageMap.DEMO).forward(req, resp);
     }
 
     public void list() {
